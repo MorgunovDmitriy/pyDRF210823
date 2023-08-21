@@ -9,6 +9,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from .models import *
 from .serializers import *
 from .paginations import GenrePagination
+from rest_framework import generics, permissions
 
 
 # def games_list(request):
@@ -31,6 +32,7 @@ class StudiosListAPIView(ListAPIView):
 class GamesView(ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+
     
 
 
@@ -86,3 +88,8 @@ class GamesSearchView(APIView):
         serializer = GameSerializer(instance=games, many=True)
         json_data = serializer.data
         return Response(data=json_data)
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)

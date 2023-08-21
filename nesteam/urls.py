@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from games.views import *
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 
 
 router = routers.DefaultRouter()
@@ -25,6 +26,8 @@ router.register(r'genre', GenreViewSet)
 
 
 urlpatterns = [
+    path('auth/',include('djoser.urls')),
+    path('auth/token',obtain_auth_token,name='token'),
     path('admin/', admin.site.urls),
     # path('games/', games_list, name='games'),
     # path('create-game/', CreateGameAPIView.as_view(), name='create-game'),
